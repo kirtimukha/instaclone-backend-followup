@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//datasource
+// ==> Prisma 에게 데이터베이스의 주소(URL)와 종류(Provider)를 알려주는 역할
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//client : DB와 소통하는 방식
+generator client {
+  provider = "prisma-client-js"
+}
+
+//extentions를 열어서 prisma라는 익스텐션을 설치한다.
+//Prisma Migrate는 schema.prisma 파일의 데이터 모델을 쓰고 설명할 수 있게 해준다.
+//이 파일에서 모든 Model을 설명하면 Prisma Migrate는 그 설명들을 데이터 베이스에 적용해준다.
+
+model Movie {
+  id        Int      @id @default(autoincrement())
+  title     String
+  year      Int
+  genre     String? //required가 아님을 표기하는 것"?"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
