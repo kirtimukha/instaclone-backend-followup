@@ -21,7 +21,7 @@ export default {
                 console.log("널이면 저장이 되어야 함" + existingUser);
                 return true
             } else{
-                console.log("널이 아니면 저장이 안되어야 함"+ existingUser);
+                console.log("널이 아니면 저장이 안되어야 함" + existingUser);
             }
             //if ( existingUser ) throw new Error('Email or User name is already in use')
 
