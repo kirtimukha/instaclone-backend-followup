@@ -1,6 +1,6 @@
-import client from "../../client";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import client from "../../client";
 
 export default {
     Mutation: { // mutation에서는 항상  export default {mutation: } 을 해주어야 한다.
