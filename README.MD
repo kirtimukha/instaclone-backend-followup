@@ -3,8 +3,8 @@ Instaclone Backend Built with Prisma and GraphQL.
 
 ## user:
 
-- [ ] create Account
-- [ ] See Profile
+- [O] create Account
+- [O] See Profile
 - [ ] Login
 - [ ] Edit Profile
 - [ ] Follow User
