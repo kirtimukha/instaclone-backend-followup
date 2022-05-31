@@ -1,22 +1,30 @@
-require('dotenv').config();
-import { ApolloServer} from "apollo-server";
-import schema from "./schema";
+require("dotenv").config();
+import { ApolloServer } from "apollo-server-express";
+import {graphqlUploadExpress} from "graphql-upload";
+import express from "express";
+import { typeDefs, resolvers } from "./schema";
 import { getUser } from "./users/users.utils";
+/*import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import logger from "morgan";*/
+//토큰을 수동으로 가져오지 않고 ==> token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUzNjAwNjQ0fQ.7QlrNaCQ4DYHbwNXroIwN3tJrUIz2HYsZJg9rf68Piw"
+const PORT=process.env.PORT;
 
-const PORT = process.env.PORT
-const server = new ApolloServer({
-    schema,
-    context: async ({ req }) => {
-        return {
-            //token: req.headers.token,
-            loggedInUser: await getUser(req.headers.token),
-            //토큰을 수동으로 가져오지 않고 ==> token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUzNjAwNjQ0fQ.7QlrNaCQ4DYHbwNXroIwN3tJrUIz2HYsZJg9rf68Piw"
-            // context를 통해서 헤더 리퀘스트에 있는 토큰 정보를 자동으로 가져옴
-          //  protectResolver,
-        };
-    },
-});
+const startServer = async () => {
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: async ({req }) => {
+            return {
+                loggedInUser : await getUser(req.headers.token),
+            }
+        },
+    });
 
-server
-    .listen(PORT)
-    .then(() => console.log(`Server in running on http://localshost:${PORT}`));
+    await server.start();
+    const app = express();
+    app.use(graphqlUploadExpress());
+    server.applyMiddleware({ app });
+    await new Promise((func) => app.listen({ port: PORT }, func));
+    console.log(`🚀 Server: http://localhost:${PORT}${server.graphqlPath}`);
+}
+startServer();
