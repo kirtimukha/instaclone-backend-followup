@@ -1,7 +1,7 @@
-import { attachConnectorsToContext } from "apollo-server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import client from "../../client";
+import { getUser } from "../users.utils";
 
 export default {
     Mutation: {
@@ -12,9 +12,11 @@ export default {
             //resolver 는 4개의 args를 가짐 ( root, 내가 쓰는 args, context, info)
             // context에 넣는 것은 모든 resolver에서 접근할 수 있음 context === { token }
         ) => {
-            //1~6을 매번 할 수 없으니 이 내용을 아폴로서버 context 에 
-            //logg{loggedInUser: getUser에 넣고 사용함 === 리졸버 컨텍스트 자리에 {loggedInUser }를 넣어 대체 
-            //1  [[ const { id } = await jwt.verify(token, process.env.SECRET_KEY);]] 2~6을 1로 대체 
+            console.log(loggedInUser);
+           // protectResolver(loggedInUser);
+            //1~6을 매번 할 수 없으니 이 내용을 아폴로서버 context 에
+            //logg{loggedInUser: getUser에 넣고 사용함 === 리졸버 컨텍스트 자리에 {loggedInUser }를 넣어 대체
+            //1  [[ const { id } = await jwt.verify(token, process.env.SECRET_KEY);]] 2~6을 1로 대체
             //2 const verifiedToken = await jwt.verify(token, process.env.SECRET_KEY);
             //3 console.log(verifiedToken);
             //4 await jwt.verify(token, process.env.SECRET_KEY)의 결과값 형태
