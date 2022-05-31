@@ -17,7 +17,7 @@ export const getUser = async (token) =>
     } catch {
         return null;
     }
-};
+} ;
 
 /* export const protectResolver = (user) => {
     if (!loggedInUser) {
